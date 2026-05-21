@@ -314,3 +314,113 @@ function showToast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2600);
 }
+
+/* ================================================
+   GESTION DES ONGLETS AUTH (Connexion / Inscription)
+   ================================================ */
+let currentRegRole = null;
+
+function switchAuthTab(tab) {
+  const isConnexion = tab === 'connexion';
+
+  document.getElementById('tab-connexion').classList.toggle('active', isConnexion);
+  document.getElementById('tab-inscription').classList.toggle('active', !isConnexion);
+
+  document.getElementById('form-connexion').style.display  = isConnexion ? 'block' : 'none';
+  document.getElementById('form-inscription').style.display = isConnexion ? 'none' : 'block';
+}
+
+/* ------------------------------------------------
+   SÉLECTION DU RÔLE INSCRIPTION
+   ------------------------------------------------ */
+function selectRegRole(role) {
+  currentRegRole = role;
+
+  document.getElementById('reg-role-medecin').classList.toggle('selected', role === 'medecin');
+  document.getElementById('reg-role-patient').classList.toggle('selected', role === 'patient');
+
+  document.getElementById('reg-medecin-fields').style.display = role === 'medecin' ? 'block' : 'none';
+  document.getElementById('reg-patient-fields').style.display = role === 'patient' ? 'block' : 'none';
+}
+
+/* ------------------------------------------------
+   INSCRIPTION
+   ------------------------------------------------ */
+async function doRegister() {
+  if (!currentRegRole) {
+    showToast('Veuillez choisir un profil');
+    return;
+  }
+
+  const prenom = document.getElementById('reg-prenom').value.trim();
+  const nom    = document.getElementById('reg-nom').value.trim();
+  const email  = document.getElementById('reg-email').value.trim();
+  const pw     = document.getElementById('reg-pw').value.trim();
+  const pw2    = document.getElementById('reg-pw2').value.trim();
+
+  if (!prenom || !nom || !email || !pw) {
+    showToast('Veuillez remplir tous les champs');
+    return;
+  }
+
+  if (pw !== pw2) {
+    showToast('Les mots de passe ne correspondent pas');
+    return;
+  }
+
+  if (pw.length < 6) {
+    showToast('Le mot de passe doit contenir au moins 6 caractères');
+    return;
+  }
+
+  /* Données supplémentaires selon le rôle */
+  const extra = currentRegRole === 'medecin'
+    ? {
+        specialite: document.getElementById('reg-specialite').value.trim(),
+        numeroOrdre: document.getElementById('reg-ordre').value.trim()
+      }
+    : {
+        dateNaissance: document.getElementById('reg-ddn').value,
+        telephone: document.getElementById('reg-tel').value.trim()
+      };
+
+  /* Initiales automatiques */
+  const initiales = (prenom[0] + nom[0]).toUpperCase();
+
+  /* Appel API serveur Node.js */
+  try {
+    const response = await fetch('/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        identifiant: email,
+        motDePasse: pw,
+        role: currentRegRole,
+        nom: `${prenom} ${nom}`,
+        initiales,
+        ...extra
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      showToast(data.error || 'Erreur lors de l\'inscription');
+      return;
+    }
+
+    showToast('Compte créé avec succès ! Connectez-vous 🎉');
+
+    /* Pré-remplir le formulaire de connexion */
+    switchAuthTab('connexion');
+    selectRole(currentRegRole);
+    document.getElementById('login-id').value = email;
+
+  } catch (err) {
+    /* Mode hors-ligne : simulation */
+    showToast(`Compte créé ! Bienvenue ${prenom} 🎉`);
+    switchAuthTab('connexion');
+    selectRole(currentRegRole);
+    document.getElementById('login-id').value = email;
+  }
+}

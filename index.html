@@ -43,37 +43,133 @@
     <i class="ti ti-heart-rate-monitor"></i>
   </div>
   <div class="login-title">Ivoire Santé Connect</div>
-  <div class="login-sub">Choisissez votre profil pour continuer</div>
 
-  <!-- Sélecteur de rôle -->
-  <div class="role-selector">
-    <div class="role-card medecin" id="role-medecin" onclick="selectRole('medecin')">
-      <div class="role-icon">
-        <i class="ti ti-stethoscope"></i>
+  <!-- Onglets Connexion / Inscription -->
+  <div class="auth-tabs">
+    <button class="auth-tab active" id="tab-connexion" onclick="switchAuthTab('connexion')">
+      <i class="ti ti-login"></i> Connexion
+    </button>
+    <button class="auth-tab" id="tab-inscription" onclick="switchAuthTab('inscription')">
+      <i class="ti ti-user-plus"></i> Créer un compte
+    </button>
+  </div>
+
+  <!-- ============================
+       FORMULAIRE CONNEXION
+       ============================ -->
+  <div id="form-connexion" class="auth-form">
+    <div class="login-sub">Connectez-vous à votre espace</div>
+
+    <!-- Sélecteur de rôle -->
+    <div class="role-selector">
+      <div class="role-card medecin" id="role-medecin" onclick="selectRole('medecin')">
+        <div class="role-icon"><i class="ti ti-stethoscope"></i></div>
+        <div class="role-name">Médecin</div>
+        <div class="role-desc">Accès complet aux dossiers</div>
       </div>
-      <div class="role-name">Médecin</div>
-      <div class="role-desc">Accès complet aux dossiers</div>
+      <div class="role-card patient" id="role-patient" onclick="selectRole('patient')">
+        <div class="role-icon"><i class="ti ti-user-circle"></i></div>
+        <div class="role-name">Patient</div>
+        <div class="role-desc">Mon suivi &amp; mes soins</div>
+      </div>
     </div>
-    <div class="role-card patient" id="role-patient" onclick="selectRole('patient')">
-      <div class="role-icon">
-        <i class="ti ti-user-circle"></i>
+
+    <div class="login-form">
+      <div class="form-group mb-3">
+        <label class="form-label-custom">Identifiant (email)</label>
+        <input class="form-input" id="login-id" type="text" placeholder="Ex: dr.kone@ivoire-sante.ci">
       </div>
-      <div class="role-name">Patient</div>
-      <div class="role-desc">Mon suivi &amp; mes soins</div>
+      <div class="form-group mb-3">
+        <label class="form-label-custom">Mot de passe</label>
+        <input class="form-input" id="login-pw" type="password" placeholder="••••••••">
+      </div>
+      <button class="btn-login" onclick="doLogin()">
+        <i class="ti ti-login me-2"></i>Se connecter
+      </button>
+      <div class="auth-switch">
+        Pas encore de compte ?
+        <span onclick="switchAuthTab('inscription')">Créer un compte</span>
+      </div>
     </div>
   </div>
 
-  <!-- Formulaire de connexion -->
-  <div class="login-form">
-    <div class="form-group mb-3">
-      <label class="form-label-custom">Identifiant</label>
-      <input class="form-input" id="login-id" type="text" placeholder="Ex: dr.kone@ivoire-sante.ci">
+  <!-- ============================
+       FORMULAIRE INSCRIPTION
+       ============================ -->
+  <div id="form-inscription" class="auth-form" style="display:none">
+    <div class="login-sub">Créez votre compte gratuitement</div>
+
+    <!-- Sélecteur de rôle inscription -->
+    <div class="role-selector">
+      <div class="role-card medecin" id="reg-role-medecin" onclick="selectRegRole('medecin')">
+        <div class="role-icon"><i class="ti ti-stethoscope"></i></div>
+        <div class="role-name">Médecin</div>
+        <div class="role-desc">Gérer mes patients</div>
+      </div>
+      <div class="role-card patient" id="reg-role-patient" onclick="selectRegRole('patient')">
+        <div class="role-icon"><i class="ti ti-user-circle"></i></div>
+        <div class="role-name">Patient</div>
+        <div class="role-desc">Suivre ma santé</div>
+      </div>
     </div>
-    <div class="form-group mb-3">
-      <label class="form-label-custom">Mot de passe</label>
-      <input class="form-input" id="login-pw" type="password" placeholder="••••••••">
+
+    <div class="login-form">
+      <div class="form-row">
+        <div>
+          <label class="form-label-custom">Prénom</label>
+          <input class="form-input" id="reg-prenom" type="text" placeholder="Ex: Amara">
+        </div>
+        <div>
+          <label class="form-label-custom">Nom</label>
+          <input class="form-input" id="reg-nom" type="text" placeholder="Ex: Koné">
+        </div>
+      </div>
+
+      <!-- Champs spécifiques Médecin -->
+      <div id="reg-medecin-fields" style="display:none">
+        <div class="form-group mb-3">
+          <label class="form-label-custom">Spécialité</label>
+          <input class="form-input" id="reg-specialite" type="text" placeholder="Ex: Médecine générale">
+        </div>
+        <div class="form-group mb-3">
+          <label class="form-label-custom">Numéro d'ordre médical</label>
+          <input class="form-input" id="reg-ordre" type="text" placeholder="Ex: CI-MED-2024-001">
+        </div>
+      </div>
+
+      <!-- Champs spécifiques Patient -->
+      <div id="reg-patient-fields" style="display:none">
+        <div class="form-group mb-3">
+          <label class="form-label-custom">Date de naissance</label>
+          <input class="form-input" id="reg-ddn" type="date">
+        </div>
+        <div class="form-group mb-3">
+          <label class="form-label-custom">Téléphone</label>
+          <input class="form-input" id="reg-tel" type="tel" placeholder="+225 07 00 00 00">
+        </div>
+      </div>
+
+      <div class="form-group mb-3">
+        <label class="form-label-custom">Email</label>
+        <input class="form-input" id="reg-email" type="email" placeholder="votre@email.com">
+      </div>
+      <div class="form-group mb-3">
+        <label class="form-label-custom">Mot de passe</label>
+        <input class="form-input" id="reg-pw" type="password" placeholder="Minimum 6 caractères">
+      </div>
+      <div class="form-group mb-3">
+        <label class="form-label-custom">Confirmer le mot de passe</label>
+        <input class="form-input" id="reg-pw2" type="password" placeholder="Répétez le mot de passe">
+      </div>
+
+      <button class="btn-login" onclick="doRegister()">
+        <i class="ti ti-user-plus me-2"></i>Créer mon compte
+      </button>
+      <div class="auth-switch">
+        Déjà un compte ?
+        <span onclick="switchAuthTab('connexion')">Se connecter</span>
+      </div>
     </div>
-    <button class="btn-login" id="btn-login" onclick="doLogin()">Se connecter</button>
   </div>
 
 </div>

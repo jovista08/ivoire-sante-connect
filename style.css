@@ -446,3 +446,55 @@ body.role-patient .patient-only { display: block; }
   pointer-events: none;
 }
 .toast-custom.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ================================================
+   ONGLETS AUTH (Connexion / Inscription)
+   ================================================ */
+.auth-tabs {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  max-width: 380px;
+  margin-bottom: 20px;
+  background: var(--border);
+  padding: 4px;
+  border-radius: var(--radius-sm);
+}
+.auth-tab {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.auth-tab.active {
+  background: var(--surface);
+  color: var(--primary);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+.auth-form { width: 100%; max-width: 380px; }
+
+/* Lien switch connexion/inscription */
+.auth-switch {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 16px;
+}
+.auth-switch span {
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}
