@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ivoire Santé Connect</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+  <!-- Icônes Tabler -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap">
+
+  <!-- Feuille de style personnalisée -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ================================================
+     SPLASH SCREEN
+     ================================================ -->
+<div id="splash">
+  <div class="splash-icon">
+    <i class="ti ti-heart-rate-monitor" aria-hidden="true"></i>
+  </div>
+  <div class="splash-title">Ivoire Santé Connect</div>
+  <div class="splash-sub">Votre santé, notre priorité</div>
+  <div class="splash-bar">
+    <div class="splash-fill"></div>
+  </div>
+</div>
+
+<!-- ================================================
+     PAGE DE CONNEXION
+     ================================================ -->
+<div id="login-screen">
+
+  <div class="login-logo">
+    <i class="ti ti-heart-rate-monitor"></i>
+  </div>
+  <div class="login-title">Ivoire Santé Connect</div>
+  <div class="login-sub">Choisissez votre profil pour continuer</div>
+
+  <!-- Sélecteur de rôle -->
+  <div class="role-selector">
+    <div class="role-card medecin" id="role-medecin" onclick="selectRole('medecin')">
+      <div class="role-icon">
+        <i class="ti ti-stethoscope"></i>
+      </div>
+      <div class="role-name">Médecin</div>
+      <div class="role-desc">Accès complet aux dossiers</div>
+    </div>
+    <div class="role-card patient" id="role-patient" onclick="selectRole('patient')">
+      <div class="role-icon">
+        <i class="ti ti-user-circle"></i>
+      </div>
+      <div class="role-name">Patient</div>
+      <div class="role-desc">Mon suivi &amp; mes soins</div>
+    </div>
+  </div>
+
+  <!-- Formulaire de connexion -->
+  <div class="login-form">
+    <div class="form-group mb-3">
+      <label class="form-label-custom">Identifiant</label>
+      <input class="form-input" id="login-id" type="text" placeholder="Ex: dr.kone@ivoire-sante.ci">
+    </div>
+    <div class="form-group mb-3">
+      <label class="form-label-custom">Mot de passe</label>
+      <input class="form-input" id="login-pw" type="password" placeholder="••••••••">
+    </div>
+    <button class="btn-login" id="btn-login" onclick="doLogin()">Se connecter</button>
+  </div>
+
+</div>
+
+<!-- ================================================
+     APPLICATION PRINCIPALE
+     ================================================ -->
+<div id="app">
+
+  <!-- HEADER -->
+  <header class="app-header">
+    <div class="header-brand">
+      <div class="brand-dot">
+        <i class="ti ti-heart-rate-monitor" aria-hidden="true"></i>
+      </div>
+      <span class="brand-name">Ivoire Santé Connect</span>
+    </div>
+    <div class="header-right">
+      <span class="role-badge" id="header-role-badge"></span>
+      <button class="notif-btn" aria-label="Notifications">
+        <i class="ti ti-bell" style="font-size:18px;color:var(--text-muted)"></i>
+        <span class="notif-dot"></span>
+      </button>
+      <div class="avatar" id="header-avatar" onclick="doLogout()" title="Se déconnecter">KJ</div>
+    </div>
+  </header>
+
+  <!-- CONTENU PRINCIPAL -->
+  <main class="app-content">
+
+    <!-- ============================================
+         ONGLET : PROFIL
+         ============================================ -->
+    <div id="tab-profil" class="tab-panel active">
+
+      <!-- Vue Patient -->
+      <div class="patient-only">
+        <div class="card">
+          <div class="doctor-hero">
+            <div class="doctor-avatar">KJ</div>
+            <div>
+              <div class="doctor-name">Koffi Julien</div>
+              <div class="doctor-spec">Patient — N° 2025-CI-00847</div>
+            </div>
+          </div>
+          <div class="field-grid">
+            <div class="field">
+              <div class="field-label">Date de naissance</div>
+              <div class="field-value">14 Mars 1985</div>
+            </div>
+            <div class="field">
+              <div class="field-label">Groupe sanguin</div>
+              <div class="field-value">O+</div>
+            </div>
+            <div class="field">
+              <div class="field-label">Taille / Poids</div>
+              <div class="field-value">178 cm / 74 kg</div>
+            </div>
+            <div class="field">
+              <div class="field-label">IMC</div>
+              <div class="field-value">23.4 — Normal</div>
+            </div>
+            <div class="field">
+              <div class="field-label">Téléphone</div>
+              <div class="field-value">+225 07 00 00 00</div>
+            </div>
+            <div class="field">
+              <div class="field-label">Contact urgence</div>
+              <div class="field-value">Evelyne Koffi</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-title">Antécédents &amp; Allergies</div>
+          <div class="mb-3">
+            <div class="small text-muted mb-2">Maladies chroniques</div>
+            <div class="tag-list">
+              <span class="tag red">Diabète type 2</span>
+              <span class="tag red">Hypertension artérielle</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="small text-muted mb-2">Allergies médicamenteuses</div>
+            <div class="tag-list">
+              <span class="tag amber">Pénicilline</span>
+              <span class="tag amber">Aspirine</span>
+            </div>
+          </div>
+          <div>
+            <div class="small text-muted mb-2">Chirurgies passées</div>
+            <div class="tag-list">
+              <span class="tag green">Appendicectomie (2018)</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="logout-btn" onclick="doLogout()">
+          <i class="ti ti-logout me-2"></i>Se déconnecter
+        </button>
+      </div>
+
+      <!-- Vue Médecin -->
+      <div class="medecin-only">
+        <div class="doctor-dash">
+          <h2>Bonjour, Dr. Koné</h2>
+          <p>Mercredi 14 Mai 2025</p>
+          <div class="doctor-stats">
+            <div class="dstat">
+              <div class="dstat-num">4</div>
+              <div class="dstat-lab">Consultations aujourd'hui</div>
+            </div>
+            <div class="dstat">
+              <div class="dstat-num">12</div>
+              <div class="dstat-lab">Patients actifs</div>
+            </div>
+            <div class="dstat">
+              <div class="dstat-num">2</div>
+              <div class="dstat-lab">Alertes</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-title">Mes patients</div>
+
+          <div class="patient-card" onclick="switchTab('consult', document.querySelector('.nav-item:nth-child(2)'))">
+            <div class="patient-av">KJ</div>
+            <div class="patient-info">
+              <div class="patient-name">Koffi Julien</div>
+              <div class="patient-meta">N° 2025-CI-00847 · Diabète / HTA</div>
+            </div>
+            <span class="badge upcoming">Suivi</span>
+          </div>
+
+          <div class="patient-card">
+            <div class="patient-av" style="background:var(--accent)">AO</div>
+            <div class="patient-info">
+              <div class="patient-name">Adjoua Oulai</div>
+              <div class="patient-meta">N° 2025-CI-00831 · Asthme</div>
+            </div>
+            <span class="badge done">Stable</span>
+          </div>
+
+          <div class="patient-card">
+            <div class="patient-av" style="background:#534AB7">BT</div>
+            <div class="patient-info">
+              <div class="patient-name">Bamba Touré</div>
+              <div class="patient-meta">N° 2025-CI-00819 · Insuffisance rénale</div>
+            </div>
+            <span class="badge" style="background:var(--danger-light);color:var(--danger)">Alerte</span>
+          </div>
+        </div>
+
+        <button class="logout-btn" onclick="doLogout()">
+          <i class="ti ti-logout me-2"></i>Se déconnecter
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ============================================
+         ONGLET : CONSULTATIONS
+         ============================================ -->
+    <div id="tab-consult" class="tab-panel">
+
+      <!-- Carte médecin traitant -->
+      <div class="card">
+        <div class="card-header-custom">
+          <div class="card-icon green">
+            <i class="ti ti-stethoscope"></i>
+          </div>
+          <div>
+            <div class="card-title">Médecin traitant</div>
+            <div class="card-name">Dr. Amara Koné</div>
+          </div>
+        </div>
+        <div class="field-grid">
+          <div class="field">
+            <div class="field-label">Spécialité</div>
+            <div class="field-value">Médecine générale</div>
+          </div>
+          <div class="field">
+            <div class="field-label">Téléphone</div>
+            <div class="field-value">+225 05 12 34 56</div>
+          </div>
+          <div class="field" style="grid-column:1/-1">
+            <div class="field-label">Clinique</div>
+            <div class="field-value">Clinique Sainte Marie, Cocody, Abidjan</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bouton nouvelle consultation (médecin uniquement) -->
+      <div class="medecin-only">
+        <button class="new-consult-btn" onclick="openObsForm()">
+          <i class="ti ti-plus"></i> Nouvelle consultation
+        </button>
+      </div>
+
+      <!-- Historique des consultations -->
+      <div class="card">
+        <div class="section-title">Historique des consultations</div>
+        <div class="consult-list" id="consult-list">
+
+          <!-- Consultation 1 -->
+          <div class="consult-item">
+            <div class="consult-item-header" onclick="toggleConsultDetail(this)">
+              <div class="consult-date-box">
+                <div class="consult-day">28</div>
+                <div class="consult-month">Avr</div>
+              </div>
+              <div class="consult-info">
+                <div class="consult-reason">Suivi diabète &amp; tension</div>
+                <div class="consult-notes">HBA1c : 6.8% — TA : 130/85</div>
+              </div>
+              <span class="badge done">Terminée</span>
+              <div class="medecin-only edit-btn"
+                   onclick="event.stopPropagation(); openObsForm('28 Avr 2025', 'Suivi diabète & tension')">
+                <i class="ti ti-edit"></i>
+              </div>
+            </div>
+            <div class="consult-detail">
+              <div class="detail-row">
+                <span class="detail-label">Motif</span>
+                <span class="detail-val">Suivi diabète &amp; hypertension</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Observations</span>
+                <span class="detail-val">Patient stable. HBA1c dans les normes (6.8%). Tension légèrement élevée mais contrôlée.</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Résultats</span>
+                <span class="detail-val">
+                  <span class="obs-tag normal"><i class="ti ti-check"></i> Glycémie : 6.8%</span>
+                  <span class="obs-tag warning"><i class="ti ti-alert-triangle"></i> TA : 130/85</span>
+                </span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Traitement</span>
+                <span class="detail-val">Continuer Metformine 850mg × 2/j. Amlodipine 5mg le soir.</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Prochain RDV</span>
+                <span class="detail-val">20 Mai 2025</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Consultation 2 -->
+          <div class="consult-item">
+            <div class="consult-item-header" onclick="toggleConsultDetail(this)">
+              <div class="consult-date-box">
+                <div class="consult-day">15</div>
+                <div class="consult-month">Mar</div>
+              </div>
+              <div class="consult-info">
+                <div class="consult-reason">Contrôle glycémie</div>
+                <div class="consult-notes">Ajustement posologie Metformine</div>
+              </div>
+              <span class="badge done">Terminée</span>
+              <div class="medecin-only edit-btn"
+                   onclick="event.stopPropagation(); openObsForm('15 Mar 2025', 'Contrôle glycémie')">
+                <i class="ti ti-edit"></i>
+              </div>
+            </div>
+            <div class="consult-detail">
+              <div class="detail-row">
+                <span class="detail-label">Motif</span>
+                <span class="detail-val">Contrôle glycémie post-ajustement</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Observations</span>
+                <span class="detail-val">Glycémie trop élevée malgré Metformine 500mg. Décision d'augmenter la posologie à 850mg.</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Résultats</span>
+                <span class="detail-val">
+                  <span class="obs-tag alert"><i class="ti ti-alert-circle"></i> Glycémie à jeun : 7.9 mmol/L</span>
+                </span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Traitement</span>
+                <span class="detail-val">Metformine passée de 500mg à 850mg × 2/j</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Prochain RDV</span>
+                <span class="detail-val">28 Avril 2025</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============================================
+         ONGLET : ORDONNANCE
+         ============================================ -->
+    <div id="tab-rx" class="tab-panel">
+      <div class="card">
+        <div class="rx-header">
+          <div>
+            <div class="rx-logo">℞ Ordonnance</div>
+            <div class="small text-muted mt-1">Dr. Amara Koné</div>
+          </div>
+          <div class="rx-date">
+            <div class="small text-muted">Délivrée le</div>
+            <div style="font-size:14px;font-weight:500">28 Avr 2025</div>
+            <div style="font-size:11px;color:var(--danger);margin-top:4px">Valide 3 mois</div>
+          </div>
+        </div>
+
+        <div class="med-item">
+          <div class="med-icon"><i class="ti ti-pill"></i></div>
+          <div>
+            <div class="med-name">Metformine 850mg</div>
+            <div class="med-dose">1 comprimé pendant les repas</div>
+          </div>
+          <div class="med-freq">2× / jour</div>
+        </div>
+
+        <div class="med-item">
+          <div class="med-icon"><i class="ti ti-pill"></i></div>
+          <div>
+            <div class="med-name">Amlodipine 5mg</div>
+            <div class="med-dose">1 comprimé le soir</div>
+          </div>
+          <div class="med-freq">1× / jour</div>
+        </div>
+
+        <!-- Bouton ajout médicament (médecin uniquement) -->
+        <div class="medecin-only mt-3">
+          <button class="new-consult-btn" style="background:var(--accent)"
+                  onclick="showToast('Fonctionnalité : ajout médicament')">
+            <i class="ti ti-plus"></i> Ajouter un médicament
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         ONGLET : IA SUIVI
+         ============================================ -->
+    <div id="tab-ia" class="tab-panel">
+      <div class="today-card">
+        <div class="today-left">
+          <h2>Mercredi 14 Mai</h2>
+          <p id="ia-greeting">Bonne journée, Kofi !</p>
+        </div>
+        <div class="today-stats">
+          <div class="stat-big">2/3</div>
+          <div class="stat-small">prises aujourd'hui</div>
+        </div>
+      </div>
+
+      <div class="section-title">Assistant IA médical</div>
+
+      <div class="chat-area">
+        <div class="chat-messages" id="chat-msgs">
+          <div class="msg ai">Bonjour ! Vous avez pris 2 médicaments sur 3 aujourd'hui.</div>
+          <div class="msg ai">Votre prochaine consultation est le 20 Mai.</div>
+        </div>
+        <div class="chat-input-row">
+          <input class="chat-input" id="chat-in"
+                 placeholder="Posez une question à l'IA…"
+                 onkeydown="if(event.key==='Enter') sendMsg()">
+          <button class="send-btn" onclick="sendMsg()">
+            <i class="ti ti-send"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- NAVIGATION BAS DE PAGE -->
+  <nav class="bottom-nav" id="bottom-nav">
+    <button class="nav-item active" onclick="switchTab('profil', this)">
+      <div class="nav-icon-wrap"><i class="ti ti-user-circle"></i></div>
+      <span class="nav-label">Profil</span>
+    </button>
+    <button class="nav-item" onclick="switchTab('consult', this)">
+      <div class="nav-icon-wrap"><i class="ti ti-stethoscope"></i></div>
+      <span class="nav-label">Consultes</span>
+    </button>
+    <button class="nav-item" onclick="switchTab('rx', this)">
+      <div class="nav-icon-wrap"><i class="ti ti-file-medical"></i></div>
+      <span class="nav-label">Ordo.</span>
+    </button>
+    <button class="nav-item" onclick="switchTab('ia', this)">
+      <div class="nav-icon-wrap"><i class="ti ti-robot"></i></div>
+      <span class="nav-label">IA Suivi</span>
+    </button>
+  </nav>
+
+</div>
+
+<!-- ================================================
+     FORMULAIRE D'OBSERVATION (bottom-sheet overlay)
+     ================================================ -->
+<div class="obs-form-overlay" id="obs-overlay" onclick="closeObsFormOutside(event)">
+  <div class="obs-form">
+    <div class="obs-form-title">Nouvelle consultation</div>
+    <div class="obs-form-sub">Koffi Julien · N° 2025-CI-00847</div>
+
+    <div class="form-row">
+      <div>
+        <label class="obs-label">Date</label>
+        <input class="obs-input" id="obs-date" type="date">
+      </div>
+      <div>
+        <label class="obs-label">Motif</label>
+        <input class="obs-input" id="obs-motif" type="text" placeholder="Ex: Suivi tension">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label class="obs-label">Tension artérielle</label>
+        <input class="obs-input" id="obs-ta" type="text" placeholder="Ex: 130/85 mmHg">
+      </div>
+      <div>
+        <label class="obs-label">Glycémie (mmol/L)</label>
+        <input class="obs-input" id="obs-glyc" type="text" placeholder="Ex: 6.8">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label class="obs-label">Poids (kg)</label>
+        <input class="obs-input" id="obs-poids" type="text" placeholder="74">
+      </div>
+      <div>
+        <label class="obs-label">Température (°C)</label>
+        <input class="obs-input" id="obs-temp" type="text" placeholder="37.0">
+      </div>
+    </div>
+
+    <div class="form-row full">
+      <div>
+        <label class="obs-label">Observations cliniques</label>
+        <textarea class="obs-textarea" id="obs-notes"
+                  placeholder="Décrivez l'état du patient, les symptômes observés…"></textarea>
+      </div>
+    </div>
+
+    <div class="form-row full">
+      <div>
+        <label class="obs-label">Traitement prescrit / ajustements</label>
+        <textarea class="obs-textarea" id="obs-traitement"
+                  placeholder="Médicaments, posologies, recommandations…"
+                  style="min-height:60px"></textarea>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label class="obs-label">Prochain RDV</label>
+        <input class="obs-input" id="obs-rdv" type="date">
+      </div>
+      <div>
+        <label class="obs-label">Statut</label>
+        <select class="obs-select" id="obs-status">
+          <option value="done">Terminée</option>
+          <option value="upcoming">À venir</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="obs-form-actions">
+      <button class="btn-cancel" onclick="closeObsForm()">Annuler</button>
+      <button class="btn-save" onclick="saveObservation()">
+        <i class="ti ti-device-floppy me-2"></i>Enregistrer
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast de notification -->
+<div class="toast-custom" id="toast"></div>
+
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- ✅ CORRECTION BUG : script.js (était incorrectement écrit "style.css") -->
+<script src="script.js"></script>
+
+</body>
+</html>

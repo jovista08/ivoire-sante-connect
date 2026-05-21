@@ -1,0 +1,448 @@
+/* ================================================
+   IVOIRE SANTÉ CONNECT — style.css
+   ================================================ */
+
+/* ---- RESET & VARIABLES ---- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --primary:       #1A6B5A;
+  --primary-light: #E1F5EE;
+  --primary-mid:   #1D9E75;
+  --accent:        #EA6B3A;
+  --accent-light:  #FAECE7;
+  --bg:            #F7F9F8;
+  --surface:       #FFFFFF;
+  --text:          #1C2B27;
+  --text-muted:    #6B7E79;
+  --border:        rgba(26,107,90,0.12);
+  --danger:        #E24B4A;
+  --danger-light:  #FCEBEB;
+  --warning:       #EF9F27;
+  --warning-light: #FAEEDA;
+  --radius:        16px;
+  --radius-sm:     10px;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ================================================
+   SPLASH SCREEN
+   ================================================ */
+#splash {
+  position: fixed; inset: 0;
+  background: var(--primary);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  z-index: 1000;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+#splash.hidden {
+  opacity: 0;
+  transform: scale(1.05);
+  pointer-events: none;
+}
+
+.splash-icon {
+  width: 80px; height: 80px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 24px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 24px;
+}
+.splash-icon i   { font-size: 40px; color: white; }
+.splash-title    { font-family: 'Playfair Display', serif; font-size: 32px; color: white; margin-bottom: 8px; }
+.splash-sub      { font-size: 14px; color: rgba(255,255,255,0.65); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 48px; }
+.splash-bar      { width: 200px; height: 3px; background: rgba(255,255,255,0.2); border-radius: 2px; overflow: hidden; }
+.splash-fill     { height: 100%; background: white; border-radius: 2px; animation: load 2.2s ease forwards; }
+
+@keyframes load {
+  0%   { width: 0%; }
+  60%  { width: 75%; }
+  100% { width: 100%; }
+}
+
+/* ================================================
+   PAGE DE CONNEXION
+   ================================================ */
+#login-screen {
+  display: none;
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: var(--bg);
+}
+#login-screen.visible { display: flex; }
+
+.login-logo {
+  width: 64px; height: 64px;
+  background: var(--primary);
+  border-radius: 20px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+}
+.login-logo i  { font-size: 30px; color: white; }
+.login-title   { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--primary); margin-bottom: 6px; text-align: center; }
+.login-sub     { font-size: 13px; color: var(--text-muted); margin-bottom: 36px; text-align: center; }
+
+/* Sélecteur de rôle */
+.role-selector { display: flex; gap: 14px; width: 100%; max-width: 380px; margin-bottom: 28px; }
+
+.role-card {
+  flex: 1;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--surface);
+}
+.role-card:hover         { border-color: var(--primary-mid); background: var(--primary-light); }
+.role-card.selected      { border-color: var(--primary); background: var(--primary-light); }
+.role-card .role-icon    { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; }
+.role-card.medecin .role-icon { background: var(--primary); }
+.role-card.patient .role-icon { background: var(--accent); }
+.role-card .role-icon i  { font-size: 24px; color: white; }
+.role-card .role-name    { font-size: 15px; font-weight: 600; color: var(--text); }
+.role-card .role-desc    { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+.role-card.selected .role-name { color: var(--primary); }
+
+/* Formulaire login */
+.login-form  { width: 100%; max-width: 380px; }
+.form-label-custom { font-size: 12px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; display: block; }
+.form-input  { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: inherit; font-size: 14px; color: var(--text); background: var(--surface); outline: none; transition: border-color 0.2s; }
+.form-input:focus { border-color: var(--primary-mid); }
+
+.btn-login {
+  width: 100%; padding: 14px;
+  background: var(--primary); color: white;
+  border: none; border-radius: var(--radius-sm);
+  font-family: inherit; font-size: 15px; font-weight: 600;
+  cursor: pointer; transition: background 0.2s; margin-top: 8px;
+}
+.btn-login:hover    { background: var(--primary-mid); }
+.btn-login:disabled { background: var(--text-muted); cursor: not-allowed; }
+
+/* ================================================
+   APPLICATION PRINCIPALE
+   ================================================ */
+#app { display: none; flex-direction: column; min-height: 100vh; }
+#app.visible { display: flex; }
+
+/* ---- HEADER ---- */
+.app-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+}
+.header-brand { display: flex; align-items: center; gap: 10px; }
+.brand-dot    { width: 32px; height: 32px; background: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+.brand-dot i  { font-size: 16px; color: white; }
+.brand-name   { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--primary); }
+.header-right { display: flex; align-items: center; gap: 8px; }
+
+.notif-btn {
+  width: 36px; height: 36px;
+  border-radius: 10px; border: 1px solid var(--border);
+  background: transparent;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; position: relative;
+}
+.notif-dot {
+  width: 8px; height: 8px;
+  background: var(--danger); border-radius: 50%;
+  position: absolute; top: 6px; right: 6px;
+  border: 1.5px solid white;
+}
+
+.avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%; background: var(--primary);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 500; color: white; cursor: pointer;
+}
+.avatar.medecin { background: var(--accent); }
+
+/* Badge de rôle dans le header */
+.role-badge { font-size: 10px; padding: 3px 8px; border-radius: 20px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+.role-badge.medecin { background: var(--accent-light); color: var(--accent); }
+.role-badge.patient { background: var(--primary-light); color: var(--primary); }
+
+/* ---- CONTENU ---- */
+.app-content { flex: 1; padding: 20px; max-width: 720px; margin: 0 auto; width: 100%; }
+
+/* ---- NAVIGATION BAS ---- */
+.bottom-nav {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 10px 0 16px;
+  display: flex; justify-content: space-around;
+  position: sticky; bottom: 0; z-index: 100;
+}
+.nav-item {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  cursor: pointer; padding: 4px 16px; border-radius: 12px;
+  transition: all 0.2s; border: none; background: transparent;
+  color: var(--text-muted);
+}
+.nav-item:hover  { color: var(--primary); }
+.nav-item.active { color: var(--primary); }
+.nav-item i      { font-size: 22px; }
+.nav-label       { font-size: 10px; font-weight: 500; }
+.nav-icon-wrap   { padding: 4px 10px; }
+.nav-item.active .nav-icon-wrap { background: var(--primary-light); border-radius: 10px; padding: 4px 10px; }
+
+/* ---- ONGLETS ---- */
+.tab-panel        { display: none; animation: fadeIn 0.3s ease; }
+.tab-panel.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ================================================
+   COMPOSANTS COMMUNS
+   ================================================ */
+
+/* Cartes — override Bootstrap .card pour notre style custom */
+.card {
+  background: var(--surface) !important;
+  border-radius: var(--radius) !important;
+  border: 1px solid var(--border) !important;
+  padding: 20px !important;
+  margin-bottom: 16px !important;
+}
+
+.card-header-custom { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.card-icon   { width: 38px; height: 38px; border-radius: 11px; display: flex; align-items: center; justify-content: center; }
+.card-icon.green  { background: var(--primary-light); }
+.card-icon.green i { color: var(--primary); font-size: 18px; }
+.card-icon.orange { background: var(--accent-light); }
+.card-icon.orange i { color: var(--accent); font-size: 18px; }
+.card-title  { font-size: 14px; font-weight: 500; color: var(--text-muted); }
+.card-name   { font-size: 16px; font-weight: 500; color: var(--text); }
+
+/* Grille de champs */
+.field-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.field       { background: var(--bg); border-radius: var(--radius-sm); padding: 12px 14px; }
+.field-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+.field-value { font-size: 14px; font-weight: 500; color: var(--text); }
+
+/* Tags */
+.tag-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag      { font-size: 13px; padding: 5px 12px; border-radius: 20px; font-weight: 500; }
+.tag.red   { background: var(--danger-light); color: var(--danger); }
+.tag.amber { background: var(--warning-light); color: #854F0B; }
+.tag.green { background: var(--primary-light); color: var(--primary); }
+
+/* Titre de section */
+.section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 12px; font-weight: 500; }
+
+/* Badges — override Bootstrap .badge */
+.badge          { font-size: 11px !important; padding: 3px 9px !important; border-radius: 20px !important; font-weight: 500 !important; }
+.badge.done     { background: var(--primary-light) !important; color: var(--primary) !important; }
+.badge.upcoming { background: var(--warning-light) !important; color: #854F0B !important; }
+
+/* Bouton déconnexion */
+.logout-btn {
+  width: 100%; padding: 12px;
+  background: var(--danger-light); color: var(--danger);
+  border: none; border-radius: var(--radius-sm);
+  font-family: inherit; font-size: 14px; font-weight: 600;
+  cursor: pointer; margin-top: 16px;
+}
+
+/* ================================================
+   VISIBILITÉ PAR RÔLE
+   ================================================ */
+.medecin-only { display: none; }
+.patient-only { display: none; }
+body.role-medecin .medecin-only { display: block; }
+body.role-patient .patient-only { display: block; }
+
+/* ================================================
+   ONGLET PROFIL
+   ================================================ */
+.doctor-hero   { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+.doctor-avatar { width: 56px; height: 56px; border-radius: 16px; background: linear-gradient(135deg, var(--primary-light), #9FE1CB); display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 600; color: var(--primary); }
+.doctor-name   { font-size: 18px; font-weight: 500; }
+.doctor-spec   { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+/* Dashboard médecin */
+.doctor-dash {
+  background: linear-gradient(135deg, var(--accent), #C9461F);
+  border-radius: var(--radius); padding: 20px; margin-bottom: 16px; color: white;
+}
+.doctor-dash h2 { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 4px; }
+.doctor-dash p  { font-size: 13px; opacity: 0.8; }
+.doctor-stats   { display: flex; gap: 12px; margin-top: 16px; }
+.dstat          { flex: 1; background: rgba(255,255,255,0.15); border-radius: var(--radius-sm); padding: 12px; text-align: center; }
+.dstat-num      { font-size: 24px; font-weight: 700; }
+.dstat-lab      { font-size: 10px; opacity: 0.75; margin-top: 2px; }
+
+/* Liste de patients */
+.patient-card { display: flex; align-items: center; gap: 14px; padding: 14px; background: var(--bg); border-radius: var(--radius-sm); margin-bottom: 10px; cursor: pointer; transition: background 0.2s; }
+.patient-card:hover { background: var(--primary-light); }
+.patient-av   { width: 44px; height: 44px; border-radius: 12px; background: var(--primary); display: flex; align-items: center; justify-content: center; color: white; font-size: 15px; font-weight: 600; }
+.patient-info { flex: 1; }
+.patient-name { font-size: 15px; font-weight: 500; }
+.patient-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+/* ================================================
+   ONGLET CONSULTATIONS
+   ================================================ */
+.consult-list { display: flex; flex-direction: column; gap: 10px; }
+.consult-item { background: var(--bg); border-radius: var(--radius-sm); overflow: hidden; }
+.consult-item-header { display: flex; align-items: center; gap: 12px; padding: 14px; cursor: pointer; }
+.consult-date-box { min-width: 44px; text-align: center; }
+.consult-day      { font-size: 20px; font-weight: 600; color: var(--primary); line-height: 1; }
+.consult-month    { font-size: 11px; text-transform: uppercase; color: var(--text-muted); }
+.consult-info     { flex: 1; }
+.consult-reason   { font-size: 14px; font-weight: 500; }
+.consult-notes    { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+/* Détail consultation (accordéon) */
+.consult-detail      { display: none; padding: 0 14px 14px; border-top: 1px dashed var(--border); margin: 0 14px; }
+.consult-detail.open { display: block; }
+.detail-row          { display: flex; gap: 8px; margin-bottom: 8px; }
+.detail-label        { font-size: 12px; font-weight: 600; color: var(--text-muted); min-width: 90px; }
+.detail-val          { font-size: 13px; color: var(--text); }
+
+/* Bouton édition (médecin) */
+.consult-item-header .edit-btn {
+  margin-left: auto;
+  width: 28px; height: 28px;
+  border-radius: 8px; border: 1px solid var(--border);
+  background: var(--surface);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-shrink: 0;
+}
+.consult-item-header .edit-btn i { font-size: 14px; color: var(--text-muted); }
+
+/* Tags de résultats */
+.obs-tag         { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; padding: 3px 8px; border-radius: 20px; margin-right: 4px; }
+.obs-tag.normal  { background: var(--primary-light); color: var(--primary); }
+.obs-tag.alert   { background: var(--danger-light); color: var(--danger); }
+.obs-tag.warning { background: var(--warning-light); color: #854F0B; }
+
+/* Bouton nouvelle consultation */
+.new-consult-btn {
+  width: 100%; padding: 13px;
+  background: var(--primary); color: white;
+  border: none; border-radius: var(--radius-sm);
+  font-family: inherit; font-size: 14px; font-weight: 600;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-bottom: 16px; transition: background 0.2s;
+}
+.new-consult-btn:hover { background: var(--primary-mid); }
+
+/* ================================================
+   ONGLET ORDONNANCE
+   ================================================ */
+.rx-header  { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px dashed var(--border); }
+.rx-logo    { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--primary); }
+.rx-date    { font-size: 12px; color: var(--text-muted); text-align: right; }
+
+.med-item   { display: flex; align-items: center; gap: 14px; padding: 14px; background: var(--bg); border-radius: var(--radius-sm); margin-bottom: 10px; }
+.med-icon   { width: 40px; height: 40px; border-radius: 12px; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; }
+.med-icon i { font-size: 20px; color: var(--primary); }
+.med-name   { font-size: 14px; font-weight: 500; }
+.med-dose   { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.med-freq   { margin-left: auto; font-size: 12px; font-weight: 500; color: var(--primary); background: var(--primary-light); padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
+
+/* ================================================
+   ONGLET IA SUIVI
+   ================================================ */
+.today-card  { background: var(--primary); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; color: white; display: flex; align-items: center; justify-content: space-between; }
+.today-left h2 { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 4px; }
+.today-left p  { font-size: 13px; opacity: 0.75; }
+.today-stats   { text-align: center; }
+.stat-big      { font-size: 28px; font-weight: 600; }
+.stat-small    { font-size: 11px; opacity: 0.7; }
+
+.chat-area      { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.chat-messages  { padding: 16px; max-height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+.msg            { max-width: 80%; padding: 10px 14px; border-radius: 14px; font-size: 13px; line-height: 1.5; }
+.msg.ai         { background: var(--primary-light); color: var(--text); border-bottom-left-radius: 4px; align-self: flex-start; }
+.msg.user       { background: var(--primary); color: white; border-bottom-right-radius: 4px; align-self: flex-end; }
+.chat-input-row { display: flex; align-items: center; gap: 8px; padding: 12px 14px; border-top: 1px solid var(--border); }
+.chat-input     { flex: 1; border: none; background: transparent; font-family: inherit; font-size: 13px; color: var(--text); outline: none; }
+.chat-input::placeholder { color: var(--text-muted); }
+.send-btn   { width: 34px; height: 34px; background: var(--primary); border: none; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.send-btn i { font-size: 16px; color: white; }
+
+/* ================================================
+   FORMULAIRE D'OBSERVATION (bottom-sheet)
+   ================================================ */
+.obs-form-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 200;
+  display: none; align-items: flex-end; justify-content: center;
+}
+.obs-form-overlay.open { display: flex; }
+
+.obs-form {
+  background: var(--surface);
+  border-radius: var(--radius) var(--radius) 0 0;
+  padding: 24px 20px 36px;
+  width: 100%; max-width: 720px;
+  max-height: 90vh; overflow-y: auto;
+  animation: slideUp 0.3s ease;
+}
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+.obs-form-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--primary); margin-bottom: 4px; }
+.obs-form-sub   { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+
+.form-row      { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+.form-row.full { grid-template-columns: 1fr; }
+
+.obs-label    { font-size: 12px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; display: block; }
+.obs-input,
+.obs-select,
+.obs-textarea {
+  width: 100%; padding: 11px 13px;
+  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  font-family: inherit; font-size: 13px; color: var(--text);
+  background: var(--bg); outline: none; transition: border-color 0.2s;
+}
+.obs-input:focus,
+.obs-select:focus,
+.obs-textarea:focus { border-color: var(--primary-mid); background: var(--surface); }
+.obs-textarea { resize: vertical; min-height: 80px; }
+
+.obs-form-actions { display: flex; gap: 10px; margin-top: 18px; }
+.btn-cancel { flex: 1; padding: 13px; border: 1.5px solid var(--border); background: transparent; border-radius: var(--radius-sm); font-family: inherit; font-size: 14px; font-weight: 500; color: var(--text-muted); cursor: pointer; }
+.btn-save   { flex: 2; padding: 13px; background: var(--primary); color: white; border: none; border-radius: var(--radius-sm); font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+.btn-save:hover { background: var(--primary-mid); }
+
+/* ================================================
+   TOAST DE NOTIFICATION (renommé pour éviter le conflit Bootstrap)
+   ================================================ */
+.toast-custom {
+  position: fixed; bottom: 100px;
+  left: 50%; transform: translateX(-50%) translateY(20px);
+  background: var(--primary); color: white;
+  padding: 12px 20px; border-radius: 12px;
+  font-size: 13px; font-weight: 500;
+  z-index: 500; opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none;
+}
+.toast-custom.show { opacity: 1; transform: translateX(-50%) translateY(0); }
