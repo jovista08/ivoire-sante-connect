@@ -1,0 +1,2 @@
+URL de ma base de donnée 
+mongodb+srv://admin:<SanteConnect2026#>@ivoire-sante.s3zjvcx.mongodb.net/?appName=ivoire-sante
